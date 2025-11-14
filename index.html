@@ -437,43 +437,18 @@
 
         // Load reservations from storage
         async function loadReservations() {
-            try {
-                // Try Claude storage first
-                if (window.storage) {
-                    const result = await window.storage.get(STORAGE_KEY, true);
-                    if (result && result.value) {
-                        reservations = JSON.parse(result.value);
-                        console.log('Loaded from Claude storage:', reservations);
-                        renderItems();
-                        return;
-                    }
-                }
-            } catch (error) {
-                console.log('Claude storage not available, using memory');
-            }
-            
-            // Fallback: just use in-memory (will reset on refresh outside Claude)
-            reservations = {};
-            renderItems();
-        }
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+        reservations = JSON.parse(saved);
+    }
+    renderItems();
+}
 
-        // Save reservations to storage
-        async function saveReservations() {
-            try {
-                // Try Claude storage if available
-                if (window.storage) {
-                    await window.storage.set(STORAGE_KEY, JSON.stringify(reservations), true);
-                    console.log('Saved to Claude storage');
-                    return true;
-                }
-            } catch (error) {
-                console.log('Claude storage not available');
-            }
-            
-            // If no storage available, just keep in memory for this session
-            console.log('Using in-memory storage (will reset on refresh)');
-            return true;
-        }
+
+       async function saveReservations() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(reservations));
+    return true;
+}
 
         // Confetti Effect
         function createConfetti() {
