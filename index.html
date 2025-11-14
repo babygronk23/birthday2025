@@ -519,9 +519,27 @@
                 
                 // Skip reserved items - don't show them at all
                 if (isReserved) {
-                    return;
-                }
-                
+    const card = document.createElement('div');
+    card.className = 'item-card reserved';
+
+    card.innerHTML = `
+        <div class="reserved-badge">Reserved 💖</div>
+        <img src="${item.image}" alt="${item.title}" class="item-image">
+        <div class="item-content">
+            <h3 class="item-title">${item.title}</h3>
+            <p class="item-description">${item.description}</p>
+            <a href="${item.link}" target="_blank" class="item-link">View Item →</a>
+            <div class="reserved-info">Already reserved 💝</div>
+        </div>
+    `;
+
+    grid.appendChild(card);
+    return;
+}
+
+
+
+
                 const card = document.createElement('div');
                 card.className = 'item-card';
                 
@@ -625,4 +643,3 @@
     </script>
 </body>
 </html>
-
